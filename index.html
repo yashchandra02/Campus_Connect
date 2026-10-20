@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Discover student clubs, campus events, and opportunities to connect at CampusConnect."
+    >
+
+    <meta name="theme-color" content="#10120f">
+
+    <title>CampusConnect — More Than a Campus</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Homepage stylesheets -->
+    <link rel="stylesheet" href="IndexStyle/main.css">
+    <link rel="stylesheet" href="IndexStyle/header-hero.css">
+    <link rel="stylesheet" href="IndexStyle/clubs-events.css">
+    <link rel="stylesheet" href="IndexStyle/footer-about.css">
+    <link rel="stylesheet" href="IndexStyle/responsive.css">
+
+    <!-- Homepage interactions -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- =========================================
+         HEADER / NAVIGATION
+    ========================================== -->
+    <header class="site-header">
+        <nav class="navbar container" aria-label="Main navigation">
+
+            <a class="logo" href="#home" aria-label="CampusConnect home">
+                <span class="logo-symbol" aria-hidden="true">✳</span>
+                <span class="logo-text">Campus<span>Connect</span></span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="nav-links"
+            >
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links" id="nav-links">
+                <a class="nav-link active" href="#home">Home</a>
+                <a class="nav-link" href="#clubs">Clubs</a>
+                <a class="nav-link" href="#events">Events</a>
+                <a class="nav-link" href="#about">About</a>
+            </div>
+
+            <a class="nav-cta" href="#clubs">
+                Get involved <span aria-hidden="true">↗</span>
+            </a>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- =========================================
+             HERO
+        ========================================== -->
+        <section class="hero" id="home">
+            <div class="hero-inner container">
+
+                <div class="hero-content">
+
+                    <p class="eyebrow hero-eyebrow">
+                        EXPLORE <span>·</span> JOIN <span>·</span> BUILD <span>·</span> BELONG
+                    </p>
+
+                    <h1>
+                        More Than a Campus,<br>
+                        <span>A Community.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Discover student clubs, exciting events and opportunities
+                        to grow, connect and make an impact — all in one place.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#clubs">
+                            Explore Clubs <span aria-hidden="true">→</span>
+                        </a>
+
+                        <a class="button button-outline" href="#events">
+                            View Events
+                        </a>
+                    </div>
+
+                    <div class="hero-stats" aria-label="CampusConnect overview">
+
+                        <div class="stat-item">
+                            <strong id="club-stat">04</strong>
+                            <span>Active Clubs</span>
+                        </div>
+
+                        <div class="stat-item">
+                            <strong id="event-stat">06</strong>
+                            <span>Sample Events</span>
+                        </div>
+
+                        <div class="stat-item">
+                            <strong>01</strong>
+                            <span>Connected Campus</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Hero image: we'll add the image asset in a later step -->
+                <div class="hero-visual">
+
+                    <img
+                        class="hero-image"
+                        src="images/campus-hero.jpg"
+                        alt="Students spending time together on a college campus"
+                        fetchpriority="high"
+                    >
+
+                    <div class="hero-image-shade" aria-hidden="true"></div>
+
+                    <div class="hero-image-caption">
+                        <span class="caption-line"></span>
+                        <p>Same campus.<br><em>New stories.</em></p>
+                    </div>
+
+                    <div class="hero-image-index">
+                        CAMPUS LIFE / 001
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================================
+             CLUBS
+        ========================================== -->
+        <section class="clubs-section section" id="clubs">
+            <div class="container clubs-layout">
+
+                <div class="clubs-intro">
+                    <p class="eyebrow">GET INVOLVED</p>
+
+                    <h2>Our Clubs<span class="heading-period">.</span></h2>
+
+                    <p>
+                        From technology to community service, there's a space
+                        for everyone.
+                    </p>
+
+                    <a class="text-link" href="#clubs">
+                        View all clubs <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div
+                    class="club-grid"
+                    id="club-grid"
+                    aria-label="Student clubs"
+                >
+                    <!-- Club cards will be generated by script.js -->
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================================
+             EVENTS
+        ========================================== -->
+        <section class="events-section section" id="events">
+            <div class="container events-layout">
+
+                <div class="events-intro">
+                    <p class="eyebrow">STAY UPDATED</p>
+
+                    <h2>Upcoming<br>Events<span class="heading-period">.</span></h2>
+
+                    <p>
+                        Workshops, meetups, competitions and more — there's
+                        always something happening on campus.
+                    </p>
+
+                    <a class="button button-dark" href="#event-grid">
+                        See all events <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div class="events-content">
+
+                    <!-- Search and filters -->
+                    <form class="event-tools" id="event-filters">
+
+                        <label class="search-field">
+                            <span class="search-icon" aria-hidden="true">⌕</span>
+
+                            <input
+                                type="search"
+                                id="event-search"
+                                name="search"
+                                placeholder="Search events, clubs or keywords..."
+                                aria-label="Search events, clubs or keywords"
+                            >
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="sr-only">Filter by club</span>
+
+                            <select id="club-filter" name="club">
+                                <option value="all">All Clubs</option>
+                            </select>
+                        </label>
+
+                        <label class="filter-field">
+                            <span class="sr-only">Filter by date</span>
+
+                            <select id="date-filter" name="date">
+                                <option value="all">Any Date</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
+                        </label>
+
+                        <button
+                            class="clear-filters"
+                            id="clear-filters"
+                            type="reset"
+                        >
+                            Clear Filters
+                        </button>
+
+                    </form>
+
+                    <div class="events-toolbar">
+                        <p id="event-count" aria-live="polite">
+                            Loading events...
+                        </p>
+
+                        <span class="events-label">THE CAMPUS CALENDAR</span>
+                    </div>
+
+                    <div
+                        class="event-grid"
+                        id="event-grid"
+                        aria-label="Upcoming campus events"
+                    >
+                        <!-- Event cards will be generated by script.js -->
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =========================================
+             ABOUT
+        ========================================== -->
+        <section class="about-section" id="about">
+            <div class="container about-inner">
+
+                <div class="about-heading">
+                    <p class="eyebrow">ABOUT CAMPUSCONNECT</p>
+
+                    <h2>
+                        Built by Students,<br>
+                        for a <span>Better Campus.</span>
+                    </h2>
+                </div>
+
+                <div class="about-content">
+                    <p>
+                        CampusConnect brings student clubs, campus events
+                        and opportunities together — making it easier to get
+                        involved, learn something new and meet your community.
+                    </p>
+
+                    <a class="button button-primary" href="#clubs">
+                        Learn More <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div class="about-decoration" aria-hidden="true">
+                    <span>CC</span>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a class="logo footer-logo" href="#home">
+                <span class="logo-symbol" aria-hidden="true">✳</span>
+                <span class="logo-text">Campus<span>Connect</span></span>
+            </a>
+
+            <p class="footer-message">
+                Life happens between lectures.
+            </p>
+
+            <div class="footer-links">
+                <a href="#clubs">Clubs</a>
+                <a href="#events">Events</a>
+                <a href="#about">About</a>
+                <a href="#home">Back to top ↑</a>
+            </div>
+
+            <p class="footer-credit">
+                CAMPUSCONNECT <span>·</span> A STUDENT PROJECT
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

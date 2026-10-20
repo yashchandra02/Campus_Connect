@@ -1,0 +1,287 @@
+/* ========================================
+   CAMPUSCONNECT — RESPONSIVE DESIGN
+======================================== */
+
+/* ---------- TABLETS & SMALL LAPTOPS ---------- */
+
+@media (max-width: 1100px) {
+    :root {
+        --page-gutter: 4%;
+    }
+
+    .hero-inner {
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+        gap: 28px;
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 5.3vw, 4.5rem);
+    }
+
+    .hero-visual {
+        min-height: 420px;
+    }
+
+    .hero-stats {
+        gap: 23px;
+    }
+}
+
+/* ---------- TABLET NAVIGATION ---------- */
+
+@media (max-width: 850px) {
+    .navbar {
+        min-height: 70px;
+    }
+
+    .nav-cta {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: flex;
+        width: 43px;
+        height: 43px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 17px;
+        height: 1.5px;
+        background: var(--text);
+        transition: transform 0.2s ease;
+    }
+
+    .menu-toggle[aria-expanded="true"] span:first-child {
+        transform: translateY(3.75px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] span:last-child {
+        transform: translateY(-3.75px) rotate(-45deg);
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px var(--page-gutter) 18px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+
+    .nav-links.is-open {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: 13px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .nav-link.active {
+        color: var(--accent);
+    }
+
+    .hero {
+        padding-top: 70px;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr 0.8fr;
+        gap: 24px;
+        min-height: 570px;
+    }
+
+    .hero-content {
+        padding-block: 55px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.7rem, 6vw, 4rem);
+    }
+
+    .hero-description {
+        font-size: 0.88rem;
+    }
+
+    .hero-visual {
+        min-height: 390px;
+    }
+
+    .hero-stats {
+        flex-wrap: wrap;
+        gap: 18px;
+    }
+
+    .stat-item strong {
+        font-size: 1.35rem;
+    }
+}
+
+/* ---------- PHONES ---------- */
+
+@media (max-width: 600px) {
+    :root {
+        --page-gutter: 6%;
+    }
+
+    html {
+        scroll-padding-top: 75px;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    .navbar {
+        min-height: 66px;
+    }
+
+    .logo-symbol {
+        font-size: 1.65rem;
+    }
+
+    .logo-text {
+        font-size: 1.12rem;
+    }
+
+    .hero {
+        padding-top: 66px;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding-bottom: 42px;
+    }
+
+    .hero-content {
+        padding-block: 52px 0;
+    }
+
+    .hero-eyebrow {
+        font-size: 0.59rem;
+        letter-spacing: 1.5px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.7rem, 10.5vw, 4.1rem);
+        letter-spacing: -1.8px;
+    }
+
+    .hero-description {
+        max-width: 440px;
+        margin-top: 20px;
+        font-size: 0.9rem;
+    }
+
+    .hero-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .button {
+        min-height: 42px;
+        padding: 10px 16px;
+        font-size: 0.75rem;
+    }
+
+    .hero-stats {
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 33px;
+        padding-top: 19px;
+    }
+
+    .stat-item {
+        gap: 4px;
+    }
+
+    .stat-item strong {
+        font-size: 1.35rem;
+    }
+
+    .stat-item span {
+        font-size: 0.62rem;
+    }
+
+    .hero-visual {
+        min-height: 390px;
+        height: 65vw;
+        max-height: 480px;
+    }
+
+    .hero-image-caption {
+        left: 20px;
+        bottom: 20px;
+    }
+
+    .hero-image-caption p {
+        font-size: 1.7rem;
+    }
+
+    .hero-image-index {
+        right: 14px;
+        font-size: 0.55rem;
+    }
+
+    .clubs-intro h2,
+    .events-intro h2 {
+        font-size: clamp(2.8rem, 11vw, 3.8rem);
+    }
+
+    .about-heading h2 {
+        letter-spacing: -1.2px;
+    }
+}
+
+/* ---------- EXTRA-SMALL PHONES ---------- */
+
+@media (max-width: 380px) {
+    .hero h1 {
+        font-size: 2.55rem;
+    }
+
+    .hero-visual {
+        min-height: 320px;
+    }
+
+    .hero-stats {
+        gap: 8px;
+    }
+
+    .stat-item span {
+        max-width: 85px;
+    }
+
+    .hero-actions .button {
+        padding-inline: 13px;
+    }
+
+    .events-toolbar {
+        gap: 8px;
+    }
+
+    .events-label {
+        font-size: 0.54rem;
+        letter-spacing: 0.8px;
+    }
+}

@@ -1,0 +1,228 @@
+
+/* =========================================
+   CAMPUSCONNECT — GLOBAL STYLES
+   ========================================= */
+
+:root {
+    --bg: #10120f;
+    --surface: #191b17;
+    --surface-raised: #24261f;
+
+    --text: #f5f1e8;
+    --muted: #b7b5aa;
+    --accent: #f4c451;
+    --accent-hover: #ffda78;
+
+    --border: #373930;
+    --dark-text: #151611;
+    --dark-muted: #55564e;
+    --paper: #f4f0e7;
+    --paper-card: #fffdf8;
+    --paper-border: #d9d3c6;
+
+    --font-body: "DM Sans", Arial, sans-serif;
+    --font-display: "Playfair Display", Georgia, serif;
+
+    --container-width: 1440px;
+    --page-gutter: 5.5%;
+}
+
+/* Reset */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    min-width: 320px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+select {
+    cursor: pointer;
+}
+
+button,
+a,
+input,
+select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    color: inherit;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--dark-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.container {
+    width: min(
+        calc(100% - var(--page-gutter) * 2),
+        var(--container-width)
+    );
+    margin-inline: auto;
+}
+
+.section {
+    padding-block: 36px;
+}
+
+.eyebrow {
+    margin-bottom: 12px;
+    font-family: var(--font-body);
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1.5;
+}
+
+.heading-period {
+    color: var(--accent);
+}
+
+.text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.text-link span {
+    color: var(--accent);
+    transition: transform 0.2s ease;
+}
+
+.text-link:hover span {
+    transform: translateX(4px);
+}
+
+/* Shared buttons */
+
+.button {
+    min-height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.79rem;
+    font-weight: 700;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    background: var(--accent);
+    color: var(--dark-text);
+}
+
+.button-primary:hover {
+    background: var(--accent-hover);
+}
+
+.button-outline {
+    border-color: #66675f;
+    background: transparent;
+    color: var(--text);
+}
+
+.button-outline:hover {
+    border-color: var(--accent);
+}
+
+.button-dark {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.button-dark:hover {
+    background: #292b25;
+}
+
+/* Accessibility */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
