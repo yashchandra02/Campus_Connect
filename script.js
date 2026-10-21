@@ -1,482 +1,206 @@
 
-/* ========================================
-   CAMPUSCONNECT — MAIN JAVASCRIPT
-======================================== */
+const loginPage = document.getElementById("loginPage");
+const dashboardPage = document.getElementById("dashboardPage");
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
 
-/* ---------- CLUB DATA ---------- */
+const eventForm = document.getElementById("eventForm");
+const eventFormSection = document.getElementById("eventFormSection");
+const eventsList = document.getElementById("eventsList");
+const statusMessage = document.getElementById("statusMessage");
 
-const clubs = [
+let events = [
     {
         id: 1,
-        name: "CodeCraft",
-        category: "TECHNOLOGY",
-        description: "Build projects, explore new technologies, and grow your coding skills together.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 2,
-        name: "Creative Canvas",
-        category: "ART & DESIGN",
-        description: "Explore your creativity through design, illustration, photography, and art.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 3,
-        name: "Echo Music Society",
-        category: "MUSIC",
-        description: "Connect with fellow music lovers, jam together, and perform on campus.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 4,
-        name: "Impact Collective",
-        category: "SOCIAL IMPACT",
-        description: "Make a difference through volunteering, community projects, and campus initiatives.",
-        image: "images/campus-hero.jpg"
-    }
-];
-
-/* ---------- EVENT DATA ---------- */
-
-const events = [
-    {
-        id: 1,
-        title: "Buildathon 2026",
-        club: "CodeCraft",
-        category: "Workshop",
-        date: "2026-10-24",
-        time: "10:00 AM",
-        location: "Innovation Lab",
-        description: "Team up with fellow students to build creative solutions to real-world problems.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 2,
-        title: "Design Your World",
-        club: "Creative Canvas",
-        category: "Workshop",
-        date: "2026-10-26",
-        time: "2:00 PM",
-        location: "Design Studio",
-        description: "Explore visual storytelling, creative thinking, and the fundamentals of design.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 3,
-        title: "Campus Open Mic",
-        club: "Echo Music Society",
-        category: "Performance",
-        date: "2026-10-28",
-        time: "5:00 PM",
-        location: "Main Auditorium",
-        description: "Enjoy an evening of live music, singing, and performances by fellow students.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 4,
-        title: "Green Campus Drive",
-        club: "Impact Collective",
-        category: "Community",
-        date: "2026-10-30",
-        time: "9:00 AM",
-        location: "College Garden",
-        description: "Join fellow volunteers for a campus clean-up and sustainability initiative.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 5,
-        title: "Coding Night",
-        club: "CodeCraft",
-        category: "Meetup",
-        date: "2026-11-02",
-        time: "4:00 PM",
-        location: "Computer Lab 2",
-        description: "Share ideas, solve coding challenges, and learn from other student developers.",
-        image: "images/campus-hero.jpg"
-    },
-    {
-        id: 6,
-        title: "Creative Showcase",
-        club: "Creative Canvas",
-        category: "Exhibition",
+        title: "Coding Workshop",
+        club: "OSCODE",
         date: "2026-11-05",
-        time: "12:00 PM",
-        location: "Student Centre",
-        description: "Discover original student artwork, photography, illustrations, and design projects.",
-        image: "images/campus-hero.jpg"
+        time: "10:00",
+        venue: "Computer Lab",
+        description: "A beginner-friendly coding workshop.",
+        rules: "Bring your laptop.",
+        link: ""
+    },
+    {
+        id: 2,
+        title: "Technical Hackathon",
+        club: "IEEE",
+        date: "2026-11-10",
+        time: "09:00",
+        venue: "Main Auditorium",
+        description: "A team-based coding competition.",
+        rules: "Register as a team.",
+        link: ""
     }
 ];
 
-/* ---------- HELPER FUNCTIONS ---------- */
+let editingId = null;
 
-function formatEventDate(dateString) {
-    const date = new Date(dateString + "T12:00:00");
+// DEMO ONLY: this is not secure real authentication.
+loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-    return {
-        day: date.getDate(),
-        month: date.toLocaleDateString("en-US", {
-            month: "short"
-        }),
-        full: date.toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        })
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (username === "admin" && password === "admin123") {
+        loginPage.classList.add("hidden");
+        dashboardPage.classList.remove("hidden");
+        loginMessage.textContent = "";
+        loginForm.reset();
+        renderEvents();
+    } else {
+        loginMessage.textContent =
+            "Invalid demo credentials. Please try again.";
+    }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function () {
+    dashboardPage.classList.add("hidden");
+    eventFormSection.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+    statusMessage.textContent = "";
+    loginForm.reset();
+});
+
+document.getElementById("addEventBtn").addEventListener("click", function () {
+    resetEventForm();
+    eventFormSection.classList.remove("hidden");
+    document.getElementById("formTitle").textContent = "Add New Event";
+});
+
+document.getElementById("cancelBtn").addEventListener("click", function () {
+    resetEventForm();
+});
+
+eventForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const eventData = {
+        title: document.getElementById("eventTitle").value.trim(),
+        club: document.getElementById("eventClub").value,
+        date: document.getElementById("eventDate").value,
+        time: document.getElementById("eventTime").value,
+        venue: document.getElementById("eventVenue").value.trim(),
+        description: document.getElementById("eventDescription").value.trim(),
+        rules: document.getElementById("eventRules").value.trim(),
+        link: document.getElementById("eventLink").value.trim()
     };
-}
 
-function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[character]);
-}
+    if (editingId === null) {
+        const newId = events.length
+            ? Math.max(...events.map(event => event.id)) + 1
+            : 1;
 
-function getClubByName(clubName) {
-    return clubs.find(club => club.name === clubName);
-}
+        events.push({ id: newId, ...eventData });
+        showMessage("Event added successfully!");
+    } else {
+        events = events.map(event =>
+            event.id === editingId
+                ? { id: editingId, ...eventData }
+                : event
+        );
 
-/* ---------- RENDER CLUB CARDS ---------- */
-
-function renderClubs() {
-    const clubGrid = document.getElementById("club-grid");
-
-    if (!clubGrid) return;
-
-    clubGrid.innerHTML = clubs.map((club, index) => `
-        <article class="club-card">
-            <div class="club-image-wrap">
-                <img
-                    class="club-image"
-                    src="${escapeHTML(club.image)}"
-                    alt="${escapeHTML(club.name)}"
-                    loading="lazy"
-                >
-                <span class="club-number">
-                    ${String(index + 1).padStart(2, "0")}
-                </span>
-            </div>
-
-            <div class="club-card-content">
-                <span class="club-category">
-                    ${escapeHTML(club.category)}
-                </span>
-
-                <h3>${escapeHTML(club.name)}</h3>
-
-                <p>${escapeHTML(club.description)}</p>
-
-                <div class="club-card-actions">
-                    <a
-                        class="club-card-link"
-                        href="index.html#events"
-                        data-club-filter="${escapeHTML(club.name)}"
-                    >
-                        Explore events <span aria-hidden="true">↗</span>
-                    </a>
-
-                    <a
-                        class="club-card-link"
-                        href="club-details.html?id=${club.id}"
-                    >
-                        View Club <span aria-hidden="true">→</span>
-                    </a>
-                </div>
-            </div>
-        </article>
-    `).join("");
-
-    const clubStat = document.getElementById("club-stat");
-
-    if (clubStat) {
-        clubStat.textContent = String(clubs.length).padStart(2, "0");
+        showMessage("Event updated successfully!");
     }
 
-    const clubFilter = document.getElementById("club-filter");
+    resetEventForm();
+    renderEvents();
+});
 
-    if (clubFilter) {
-        clubFilter.querySelectorAll("option:not([value='all'])").forEach(option => {
-            option.remove();
-        });
+function renderEvents() {
+    eventsList.replaceChildren();
 
-        clubs.forEach(club => {
-            const option = document.createElement("option");
-            option.value = club.name;
-            option.textContent = club.name;
-            clubFilter.appendChild(option);
-        });
-    }
-
-    // Filter to a specific club when "Explore events" is clicked.
-    clubGrid.querySelectorAll("[data-club-filter]").forEach(link => {
-        link.addEventListener("click", event => {
-            const clubName = link.dataset.clubFilter;
-
-            // If already on the homepage, filter events without reloading.
-            if (
-                window.location.pathname.endsWith("index.html") ||
-                window.location.pathname === "/" ||
-                window.location.pathname.endsWith("/")
-            ) {
-                event.preventDefault();
-
-                const clubFilter = document.getElementById("club-filter");
-
-                if (clubFilter) {
-                    clubFilter.value = clubName;
-                    filterEvents();
-                }
-
-                document.getElementById("events")?.scrollIntoView({
-                    behavior: "smooth"
-                });
-
-                history.replaceState(null, "", "#events");
-            }
-        });
-    });
-}
-
-/* ---------- RENDER EVENT CARDS ---------- */
-
-function renderEvents(eventList) {
-    const eventGrid = document.getElementById("event-grid");
-    const eventCount = document.getElementById("event-count");
-
-    if (!eventGrid) return;
-
-    if (eventCount) {
-        eventCount.textContent =
-            `${eventList.length} ${eventList.length === 1 ? "event" : "events"} found`;
-    }
-
-    if (eventList.length === 0) {
-        eventGrid.innerHTML = `
-            <div class="event-empty">
-                <h3>No events found</h3>
-                <p>Try another search or clear your filters.</p>
-            </div>
-        `;
+    if (events.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No events available. Add your first event!";
+        eventsList.appendChild(emptyMessage);
         return;
     }
 
-    eventGrid.innerHTML = eventList.map(event => {
-        const date = formatEventDate(event.date);
-        const organiserClub = getClubByName(event.club);
-        const clubLink = organiserClub
-            ? `club-details.html?id=${organiserClub.id}`
-            : "index.html#clubs";
+    const sortedEvents = [...events].sort((a, b) =>
+        a.date.localeCompare(b.date)
+    );
 
-        return `
-            <article class="event-card">
-                <div class="event-banner">
-                    <img
-                        src="${escapeHTML(event.image)}"
-                        alt="${escapeHTML(event.title)}"
-                        loading="lazy"
-                    >
+    sortedEvents.forEach(event => {
+        const card = document.createElement("article");
+        card.className = "event-card";
 
-                    <span class="event-type">
-                        ${escapeHTML(event.category)}
-                    </span>
+        const title = document.createElement("h4");
+        title.textContent = event.title;
 
-                    <div class="event-date-badge">
-                        <strong>${date.day}</strong>
-                        <span>${date.month}</span>
-                    </div>
-                </div>
+        const club = document.createElement("p");
+        club.className = "club-name";
+        club.textContent = event.club;
 
-                <div class="event-details">
-                    <h3>${escapeHTML(event.title)}</h3>
+        const details = document.createElement("p");
+        details.textContent =
+            `${event.date} at ${event.time} | ${event.venue}`;
 
-                    <p class="event-description">
-                        ${escapeHTML(event.description)}
-                    </p>
+        const description = document.createElement("p");
+        description.textContent = event.description;
 
-                    <div class="event-meta">
-                        <span>◷ ${escapeHTML(event.time)}</span>
-                        <span>⌖ ${escapeHTML(event.location)}</span>
-                    </div>
+        const actions = document.createElement("div");
+        actions.className = "event-actions";
 
-                    <div class="event-card-actions">
-                        <a
-                            class="event-card-link"
-                            href="${clubLink}"
-                        >
-                            Organised by ${escapeHTML(event.club)}
-                            <span aria-hidden="true">↗</span>
-                        </a>
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.className = "edit-btn";
+        editButton.addEventListener("click", () => editEvent(event.id));
 
-                        <a
-                            class="event-card-link"
-                            href="event-details.html?id=${event.id}"
-                        >
-                            View Details <span aria-hidden="true">→</span>
-                        </a>
-                    </div>
-                </div>
-            </article>
-        `;
-    }).join("");
-}
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-btn";
+        deleteButton.addEventListener("click", () => deleteEvent(event.id));
 
-/* ---------- SEARCH AND FILTERS ---------- */
-
-function filterEvents() {
-    const searchInput = document.getElementById("event-search");
-    const clubFilter = document.getElementById("club-filter");
-    const dateFilter = document.getElementById("date-filter");
-
-    const searchTerm = searchInput
-        ? searchInput.value.trim().toLowerCase()
-        : "";
-
-    const selectedClub = clubFilter ? clubFilter.value : "all";
-    const selectedDate = dateFilter ? dateFilter.value : "all";
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const filteredEvents = events.filter(event => {
-        const searchableText = [
-            event.title,
-            event.club,
-            event.category,
-            event.description,
-            event.location
-        ].join(" ").toLowerCase();
-
-        const matchesSearch = searchableText.includes(searchTerm);
-
-        const matchesClub =
-            selectedClub === "all" || event.club === selectedClub;
-
-        const eventDate = new Date(event.date + "T00:00:00");
-
-        const matchesDate =
-            selectedDate !== "upcoming" || eventDate >= today;
-
-        return matchesSearch && matchesClub && matchesDate;
-    });
-
-    renderEvents(filteredEvents);
-}
-
-function setupEventFilters() {
-    const searchInput = document.getElementById("event-search");
-    const clubFilter = document.getElementById("club-filter");
-    const dateFilter = document.getElementById("date-filter");
-    const clearButton = document.getElementById("clear-filters");
-    const filterForm = document.getElementById("event-filters");
-
-    if (searchInput) {
-        searchInput.addEventListener("input", filterEvents);
-    }
-
-    if (clubFilter) {
-        clubFilter.addEventListener("change", filterEvents);
-    }
-
-    if (dateFilter) {
-        dateFilter.addEventListener("change", filterEvents);
-    }
-
-    if (clearButton) {
-        clearButton.addEventListener("click", () => {
-            if (searchInput) searchInput.value = "";
-            if (clubFilter) clubFilter.value = "all";
-            if (dateFilter) dateFilter.value = "all";
-
-            filterEvents();
-        });
-    }
-
-    if (filterForm) {
-        filterForm.addEventListener("submit", event => {
-            event.preventDefault();
-            filterEvents();
-        });
-
-        filterForm.addEventListener("reset", () => {
-            setTimeout(filterEvents, 0);
-        });
-    }
-}
-
-/* ---------- MOBILE NAVIGATION ---------- */
-
-function setupMobileNavigation() {
-    const menuToggle = document.getElementById("menu-toggle");
-    const navLinks = document.getElementById("nav-links");
-
-    if (!menuToggle || !navLinks) return;
-
-    function closeMenu() {
-        navLinks.classList.remove("is-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-    }
-
-    menuToggle.addEventListener("click", () => {
-        const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
-
-        menuToggle.setAttribute("aria-expanded", String(!isOpen));
-        navLinks.classList.toggle("is-open", !isOpen);
-    });
-
-    navLinks.querySelectorAll(".nav-link").forEach(link => {
-        link.addEventListener("click", closeMenu);
-    });
-
-    document.addEventListener("keydown", event => {
-        if (event.key === "Escape") closeMenu();
-    });
-
-    document.addEventListener("click", event => {
-        if (
-            !navLinks.contains(event.target) &&
-            !menuToggle.contains(event.target)
-        ) {
-            closeMenu();
-        }
+        actions.append(editButton, deleteButton);
+        card.append(title, club, details, description, actions);
+        eventsList.appendChild(card);
     });
 }
 
-/* ---------- NAVIGATION ACTIVE STATE ---------- */
+function editEvent(id) {
+    const event = events.find(item => item.id === id);
+    if (!event) return;
 
-function setupActiveNavigation() {
-    const navLinks = document.querySelectorAll(".nav-link");
+    editingId = id;
 
-    function updateActiveLink() {
-        const currentSection = window.location.hash || "#home";
+    document.getElementById("eventTitle").value = event.title;
+    document.getElementById("eventClub").value = event.club;
+    document.getElementById("eventDate").value = event.date;
+    document.getElementById("eventTime").value = event.time;
+    document.getElementById("eventVenue").value = event.venue;
+    document.getElementById("eventDescription").value = event.description;
+    document.getElementById("eventRules").value = event.rules;
+    document.getElementById("eventLink").value = event.link;
 
-        navLinks.forEach(link => {
-            if (link.getAttribute("href") === currentSection) {
-                link.classList.add("active");
-            } else {
-                link.classList.remove("active");
-            }
-        });
-    }
+    document.getElementById("formTitle").textContent = "Edit Event";
+    document.getElementById("saveBtn").textContent = "Update Event";
 
-    window.addEventListener("hashchange", updateActiveLink);
-    updateActiveLink();
+    eventFormSection.classList.remove("hidden");
+    eventFormSection.scrollIntoView({ behavior: "smooth" });
 }
 
-/* ---------- INITIALISE CAMPUSCONNECT ---------- */
+function deleteEvent(id) {
+    const confirmed = confirm("Are you sure you want to delete this event?");
+    if (!confirmed) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-    renderClubs();
-    renderEvents(events);
-    setupEventFilters();
-    setupMobileNavigation();
-    setupActiveNavigation();
+    events = events.filter(event => event.id !== id);
+    renderEvents();
+    showMessage("Event deleted successfully!");
+}
 
-    const eventStat = document.getElementById("event-stat");
+function resetEventForm() {
+    eventForm.reset();
+    editingId = null;
+    eventFormSection.classList.add("hidden");
+    document.getElementById("formTitle").textContent = "Add New Event";
+    document.getElementById("saveBtn").textContent = "Save Event";
+}
 
-    if (eventStat) {
-        eventStat.textContent = String(events.length).padStart(2, "0");
-    }
-});
+function showMessage(message) {
+    statusMessage.textContent = message;
+}
+
+// Display the demo event list when the dashboard opens.
+renderEvents();

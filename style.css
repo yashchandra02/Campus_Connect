@@ -1,0 +1,213 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f5f9;
+    color: #202b3c;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #172554, #2563eb);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 390px;
+    padding: 32px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 12px 35px #0002;
+}
+
+.login-card h1 {
+    margin-bottom: 6px;
+    color: #1d4ed8;
+}
+
+.login-card > p {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin: 14px 0 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font: inherit;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+}
+
+button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.login-card button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.message {
+    color: #dc2626;
+    font-size: 14px;
+}
+
+.topbar {
+    padding: 20px 5%;
+    background: #172554;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.topbar p {
+    margin-bottom: 0;
+    color: #cbd5e1;
+}
+
+.logout-btn {
+    background: #dc2626;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.page-heading h2 {
+    margin-bottom: 6px;
+}
+
+.page-heading p {
+    color: #64748b;
+    margin-top: 0;
+}
+
+.form-card, .event-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000a;
+    margin-bottom: 22px;
+}
+
+.form-card h3 {
+    margin-top: 0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.secondary-btn {
+    background: #64748b;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.event-card h4 {
+    font-size: 19px;
+    margin: 0 0 12px;
+}
+
+.event-card p {
+    color: #475569;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.event-card .club-name {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.event-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.edit-btn {
+    background: #0f766e;
+}
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.status-message {
+    color: #047857;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .topbar h1 {
+        font-size: 20px;
+    }
+
+    .login-card {
+        padding: 24px;
+    }
+}
