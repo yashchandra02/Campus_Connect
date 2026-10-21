@@ -135,6 +135,10 @@ function escapeHTML(value) {
     })[character]);
 }
 
+function getClubByName(clubName) {
+    return clubs.find(club => club.name === clubName);
+}
+
 /* ---------- RENDER CLUB CARDS ---------- */
 
 function renderClubs() {
@@ -166,7 +170,11 @@ function renderClubs() {
                 <p>${escapeHTML(club.description)}</p>
 
                 <div class="club-card-actions">
-                    <a class="club-card-link" href="#events">
+                    <a
+                        class="club-card-link"
+                        href="index.html#events"
+                        data-club-filter="${escapeHTML(club.name)}"
+                    >
                         Explore events <span aria-hidden="true">↗</span>
                     </a>
 
@@ -190,8 +198,9 @@ function renderClubs() {
     const clubFilter = document.getElementById("club-filter");
 
     if (clubFilter) {
-        clubFilter.querySelectorAll("option:not([value='all'])")
-            .forEach(option => option.remove());
+        clubFilter.querySelectorAll("option:not([value='all'])").forEach(option => {
+            option.remove();
+        });
 
         clubs.forEach(club => {
             const option = document.createElement("option");
@@ -200,6 +209,35 @@ function renderClubs() {
             clubFilter.appendChild(option);
         });
     }
+
+    // Filter to a specific club when "Explore events" is clicked.
+    clubGrid.querySelectorAll("[data-club-filter]").forEach(link => {
+        link.addEventListener("click", event => {
+            const clubName = link.dataset.clubFilter;
+
+            // If already on the homepage, filter events without reloading.
+            if (
+                window.location.pathname.endsWith("index.html") ||
+                window.location.pathname === "/" ||
+                window.location.pathname.endsWith("/")
+            ) {
+                event.preventDefault();
+
+                const clubFilter = document.getElementById("club-filter");
+
+                if (clubFilter) {
+                    clubFilter.value = clubName;
+                    filterEvents();
+                }
+
+                document.getElementById("events")?.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+                history.replaceState(null, "", "#events");
+            }
+        });
+    });
 }
 
 /* ---------- RENDER EVENT CARDS ---------- */
@@ -227,13 +265,17 @@ function renderEvents(eventList) {
 
     eventGrid.innerHTML = eventList.map(event => {
         const date = formatEventDate(event.date);
+        const organiserClub = getClubByName(event.club);
+        const clubLink = organiserClub
+            ? `club-details.html?id=${organiserClub.id}`
+            : "index.html#clubs";
 
         return `
             <article class="event-card">
                 <div class="event-banner">
                     <img
                         src="${escapeHTML(event.image)}"
-                        alt=""
+                        alt="${escapeHTML(event.title)}"
                         loading="lazy"
                     >
 
@@ -259,10 +301,22 @@ function renderEvents(eventList) {
                         <span>⌖ ${escapeHTML(event.location)}</span>
                     </div>
 
-                    <a class="event-card-link" href="#about">
-                        Organised by ${escapeHTML(event.club)}
-                        <span aria-hidden="true">↗</span>
-                    </a>
+                    <div class="event-card-actions">
+                        <a
+                            class="event-card-link"
+                            href="${clubLink}"
+                        >
+                            Organised by ${escapeHTML(event.club)}
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                        <a
+                            class="event-card-link"
+                            href="event-details.html?id=${event.id}"
+                        >
+                            View Details <span aria-hidden="true">→</span>
+                        </a>
+                    </div>
                 </div>
             </article>
         `;
