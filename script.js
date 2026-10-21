@@ -165,9 +165,18 @@ function renderClubs() {
 
                 <p>${escapeHTML(club.description)}</p>
 
-                <a class="club-card-link" href="#events">
-                    Explore events <span aria-hidden="true">↗</span>
-                </a>
+                <div class="club-card-actions">
+                    <a class="club-card-link" href="#events">
+                        Explore events <span aria-hidden="true">↗</span>
+                    </a>
+
+                    <a
+                        class="club-card-link"
+                        href="club-details.html?id=${club.id}"
+                    >
+                        View Club <span aria-hidden="true">→</span>
+                    </a>
+                </div>
             </div>
         </article>
     `).join("");
@@ -181,6 +190,9 @@ function renderClubs() {
     const clubFilter = document.getElementById("club-filter");
 
     if (clubFilter) {
+        clubFilter.querySelectorAll("option:not([value='all'])")
+            .forEach(option => option.remove());
+
         clubs.forEach(club => {
             const option = document.createElement("option");
             option.value = club.name;
@@ -264,8 +276,11 @@ function filterEvents() {
     const clubFilter = document.getElementById("club-filter");
     const dateFilter = document.getElementById("date-filter");
 
-    const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    const selectedClub = clubFilter ? clubFilter.value : "";
+    const searchTerm = searchInput
+        ? searchInput.value.trim().toLowerCase()
+        : "";
+
+    const selectedClub = clubFilter ? clubFilter.value : "all";
     const selectedDate = dateFilter ? dateFilter.value : "all";
 
     const today = new Date();
@@ -283,7 +298,7 @@ function filterEvents() {
         const matchesSearch = searchableText.includes(searchTerm);
 
         const matchesClub =
-            !selectedClub || event.club === selectedClub;
+            selectedClub === "all" || event.club === selectedClub;
 
         const eventDate = new Date(event.date + "T00:00:00");
 
@@ -318,7 +333,7 @@ function setupEventFilters() {
     if (clearButton) {
         clearButton.addEventListener("click", () => {
             if (searchInput) searchInput.value = "";
-            if (clubFilter) clubFilter.value = "";
+            if (clubFilter) clubFilter.value = "all";
             if (dateFilter) dateFilter.value = "all";
 
             filterEvents();
