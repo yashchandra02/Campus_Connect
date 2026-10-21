@@ -1,10 +1,3 @@
-
-/* ========================================
-   CAMPUSCONNECT — CLUB DETAILS PAGE
-======================================== */
-
-/* ---------- CLUB DATA ---------- */
-
 const clubs = [
     {
         id: 1,
@@ -241,8 +234,13 @@ function renderClubDetailsPage() {
         return;
     }
 
+    // Render each event as a clickable card.
     clubEventsContainer.innerHTML = clubEvents.map(event => `
-        <article class="club-detail-event">
+        <a
+            href="event-details.html?id=${event.id}"
+            class="club-detail-event-link"
+            aria-label="View details for ${escapeHTML(event.title)}"
+        >
             <h3>${escapeHTML(event.title)}</h3>
 
             <p>${escapeHTML(event.description)}</p>
@@ -261,7 +259,11 @@ function renderClubDetailsPage() {
                 <strong>Location:</strong>
                 ${escapeHTML(event.location)}
             </p>
-        </article>
+
+            <span class="club-detail-event-cta">
+                View Event Details →
+            </span>
+        </a>
     `).join("");
 }
 

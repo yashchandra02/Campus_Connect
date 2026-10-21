@@ -136,8 +136,8 @@
     grid-column: 1 / -1;
     padding-top: 19px;
     border-top: 1px solid var(--border);
-    color: #77786e;
-    font-size: 0.62rem;
+    color: #999a90;
+    font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 1.4px;
 }

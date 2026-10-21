@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
         name="description"
-        content="Explore event details on CampusConnect."
+        content="Explore event details, schedules, locations, and organising clubs on CampusConnect."
     >
 
     <title>Event Details | CampusConnect</title>
@@ -19,23 +19,41 @@
 
     <style>
         .event-details-page {
-            max-width: 1100px;
+            width: min(1100px, 100%);
             margin: 0 auto;
-            padding: 48px 24px 80px;
+            padding: 36px 24px 80px;
         }
 
         .event-details-back {
-            display: inline-block;
-            margin-bottom: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 26px;
+            padding: 9px 0;
             color: inherit;
+            font-weight: 600;
             text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .event-details-back:hover {
+            color: #d6b56d;
+        }
+
+        .event-details-back:focus-visible,
+        .event-details-button:focus-visible,
+        .event-details-message a:focus-visible {
+            outline: 3px solid #d6b56d;
+            outline-offset: 4px;
         }
 
         .event-details-card {
             overflow: hidden;
-            border-radius: 18px;
+            border: 1px solid rgba(214, 181, 109, 0.2);
+            border-radius: 20px;
             background: #202020;
             color: #f7f3eb;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
         }
 
         .event-details-banner {
@@ -47,71 +65,104 @@
             width: 100%;
             height: 340px;
             object-fit: cover;
+            object-position: center;
         }
 
         .event-details-content {
-            padding: 32px;
+            padding: 36px;
         }
 
         .event-details-category {
+            display: inline-block;
+            margin-bottom: 8px;
             color: #d6b56d;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
         }
 
         .event-details-content h1 {
-            margin: 12px 0 20px;
+            margin: 8px 0 16px;
             font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 1.15;
+            overflow-wrap: anywhere;
         }
 
         .event-details-description {
             max-width: 760px;
+            margin: 0;
             color: #d3d0c9;
-            line-height: 1.8;
+            font-size: 1.03rem;
+            line-height: 1.85;
         }
 
         .event-details-meta {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 16px;
-            margin-top: 28px;
+            margin-top: 30px;
         }
 
         .event-meta-item {
-            padding: 18px;
+            min-width: 0;
+            padding: 20px;
             border: 1px solid #45433e;
-            border-radius: 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.025);
+            transition: border-color 0.2s ease;
+        }
+
+        .event-meta-item:hover {
+            border-color: rgba(214, 181, 109, 0.7);
         }
 
         .event-meta-item strong {
             display: block;
             margin-bottom: 8px;
             color: #d6b56d;
+            font-size: 0.82rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
 
         .event-meta-item span {
-            line-height: 1.6;
+            display: block;
+            color: #f7f3eb;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
         }
 
         .event-details-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-top: 28px;
+            margin-top: 30px;
         }
 
         .event-details-button {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
             padding: 12px 20px;
             border: 1px solid #d6b56d;
-            border-radius: 8px;
+            border-radius: 9px;
             background: #d6b56d;
             color: #202020;
             font-weight: 700;
+            text-align: center;
             text-decoration: none;
             cursor: pointer;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .event-details-button:hover {
+            background: #e5c982;
+            transform: translateY(-2px);
         }
 
         .event-details-button.secondary {
@@ -119,41 +170,97 @@
             color: #f7f3eb;
         }
 
+        .event-details-button.secondary:hover {
+            background: rgba(214, 181, 109, 0.12);
+            color: #e5c982;
+        }
+
+        .event-registration-note {
+            margin: 20px 0 0;
+            color: #bdb8ae;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
         .event-details-message {
-            padding: 24px;
-            border-radius: 12px;
+            padding: 28px;
+            border: 1px solid #e5dfd3;
+            border-radius: 14px;
             background: #f3efe6;
             color: #242424;
-            line-height: 1.7;
+            line-height: 1.8;
+        }
+
+        .event-details-message h1 {
+            margin-top: 0;
         }
 
         .event-details-message a {
             color: #795d24;
             font-weight: 700;
+            text-underline-offset: 4px;
         }
 
-        .event-registration-note {
-            margin-top: 18px;
-            color: #d3d0c9;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .event-details-page {
-                padding: 32px 16px 56px;
+                padding: 28px 18px 56px;
             }
 
             .event-details-banner img {
-                height: 220px;
+                height: 260px;
             }
 
             .event-details-content {
-                padding: 22px;
+                padding: 26px 22px;
             }
 
             .event-details-meta {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .event-meta-item {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .event-details-page {
+                padding-right: 14px;
+                padding-left: 14px;
+            }
+
+            .event-details-banner img {
+                height: 200px;
+            }
+
+            .event-details-content {
+                padding: 22px 18px;
+            }
+
+            .event-details-actions {
+                flex-direction: column;
+            }
+
+            .event-details-button {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .event-details-message {
+                padding: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .event-details-back,
+            .event-details-button,
+            .event-meta-item {
+                transition: none;
+            }
+
+            .event-details-button:hover {
+                transform: none;
             }
         }
     </style>
